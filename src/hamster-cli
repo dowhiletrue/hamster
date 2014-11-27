@@ -272,9 +272,10 @@ class HamsterClient(object):
         facts = self.storage.get_facts(start_time, end_time, "null")
         for fact in facts:
             fact.start_time
-            proc = subprocess.Popen(["git", "log", "--oneline", "--format=%s", "--since=\"{0}\"".format(fact.start_time), "--until=\"{0}\"".format(fact.end_time)], stdout=subprocess.PIPE)
+            proc = subprocess.Popen(["git", "log", "--format=%s", "--since=\"{0}\"".format(fact.start_time), "--until=\"{0}\"".format(fact.end_time)], stdout=subprocess.PIPE)
             output = proc.stdout.read()
-            print output
+            fact.description = output
+            self.storage.update_fact(fact.id, fact)
 
     def search(self, *args):
         """search for activities by name and optionally within a date range"""
