@@ -678,7 +678,7 @@ class Storage(storage.Storage):
 
             # flip the query around when it starts with "not "
             reverse_search_terms = search_terms.lower().startswith("not ")
-            empty_description = search_terms.lower().startswith("null")
+            empty_description = search_terms.lower().startswith("[null-description]")
             if empty_description:
                 query += """ AND a.description IS NULL """
             else:

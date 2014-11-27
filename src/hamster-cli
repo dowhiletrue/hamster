@@ -269,7 +269,7 @@ class HamsterClient(object):
         start_time, end_time = parse_datetime_range(" ".join(args))
         start_time = start_time or dt.datetime.combine(dt.date.today(), dt.time())
         end_time = end_time or start_time.replace(hour=23, minute=59, second=59)
-        facts = self.storage.get_facts(start_time, end_time, "null")
+        facts = self.storage.get_facts(start_time, end_time, "[null-description]")
         for fact in facts:
             fact.start_time
             proc = subprocess.Popen(["git", "log", "--format=%s", "--since=\"{0}\"".format(fact.start_time), "--until=\"{0}\"".format(fact.end_time)], stdout=subprocess.PIPE)
