@@ -366,6 +366,8 @@ if __name__ == '__main__':
 Actions:
     * start / track <activity> [start-time] [end-time]: Track an activity
     * stop: Stop tracking current activity.
+    * updateEmptyDescription [start-time] [end-time]: updates empty activiy descriptions
+      with git commit titles
     * list [start-time] [end-time]: List activities
     * search [terms] [start-time] [end-time]: List activities matching a search
       term
