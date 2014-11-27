@@ -263,6 +263,12 @@ class HamsterClient(object):
         else:
             print _("No activity")
 
+    def updateEmptyDescription(self, *args):
+        args = args or []
+        start_time, end_time = parse_datetime_range(" ".join(args))
+        start_time = start_time or dt.datetime.combine(dt.date.today(), dt.time())
+        end_time = end_time or start_time.replace(hour=23, minute=59, second=59)
+        self._list(start_time, end_time, 'null')
 
     def search(self, *args):
         """search for activities by name and optionally within a date range"""
