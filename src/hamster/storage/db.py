@@ -18,7 +18,6 @@
 # You should have received a copy of the GNU General Public License
 # along with Project Hamster.  If not, see <http://www.gnu.org/licenses/>.
 
-
 """separate file for database operations"""
 import logging
 
@@ -679,14 +678,18 @@ class Storage(storage.Storage):
 
             # flip the query around when it starts with "not "
             reverse_search_terms = search_terms.lower().startswith("not ")
-            if reverse_search_terms:
-                search_terms = search_terms[4:]
+            empty_description = search_terms.lower().startswith("null")
+            if empty_description:
+                query += """ AND a.description IS NULL """
+            else:
+                if reverse_search_terms:
+                    search_terms = search_terms[4:]
 
-            search_terms = search_terms.replace('\\', '\\\\').replace('%', '\\%').replace('_', '\\_').replace("'", "''")
-            query += """ AND a.id %s IN (SELECT id
-                                         FROM fact_index
-                                         WHERE fact_index MATCH '%s')""" % ('NOT' if reverse_search_terms else '',
-                                                                            search_terms)
+                search_terms = search_terms.replace('\\', '\\\\').replace('%', '\\%').replace('_', '\\_').replace("'", "''")
+                query += """ AND a.id %s IN (SELECT id
+                                             FROM fact_index
+                                             WHERE fact_index MATCH '%s')""" % ('NOT' if reverse_search_terms else '',
+                                                                                search_terms)
 
         query += " ORDER BY a.start_time, e.name"
 
